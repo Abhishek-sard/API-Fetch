@@ -45,15 +45,52 @@
 // export default App;
 
 //using the stale-while-revalidate strategy to fetch data from the API and display it in the React app.
+// import React from 'react';
+// import useSWR from 'swr';
+// const fetcher = (url) => fetch(url).then((res) => res.json());
+// const App = () => {
+//     const { data, error } = useSWR('https://jsonplaceholder.typicode.com/users', fetcher);
+//     if (error) return <p>Error loading data</p>;
+//     if (!data) return <p>Loading...</p>;
+//     return (
+//         <div>
+//             <ul>
+//                 {data.map((user) => (
+//                     <li key={user.id}>
+//                         <h3>{user.username}</h3>
+//                         <p>{user.name}</p>
+//                         <p>{user.email}</p>
+//                     </li>
+//                 ))}
+//             </ul>
+//         </div>
+//     );
+// };
+// export default App;
+
+
+//using the react query library
+
 import React from 'react';
-import useSWR from 'swr';
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import { useQuery } from 'react-query';
+
+// Function to fetch data
+const fetchUsers = async () => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/users');
+    if (!res.ok) throw new Error('Network error');
+    return res.json();
+};
+
 const App = () => {
-    const { data, error } = useSWR('https://jsonplaceholder.typicode.com/users', fetcher);
+    // Use useQuery to fetch data
+    const { data, error, isLoading } = useQuery('users', fetchUsers);
+
+    if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error loading data</p>;
-    if (!data) return <p>Loading...</p>;
+
     return (
         <div>
+            <h1>User List</h1>
             <ul>
                 {data.map((user) => (
                     <li key={user.id}>
@@ -66,4 +103,5 @@ const App = () => {
         </div>
     );
 };
+
 export default App;
