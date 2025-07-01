@@ -1,5 +1,5 @@
 .App{
-  text-align: center ;
+  text-align: center;
 }
 .container{
   display: flex;
@@ -11,6 +11,6 @@
   min-width: 33rem;
   text-align: left;
 }
-.geeks{
+.geeks {
   color: green;
 }
